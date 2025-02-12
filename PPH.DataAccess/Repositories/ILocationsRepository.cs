@@ -1,14 +1,10 @@
-﻿using PPH.DataAccess.Models;
+﻿using PPH.PublicContracts.Entities;
 
 namespace PPH.DataAccess.Repositories;
 
-public interface ILocationsRepository
+public interface IMetadataRepository
 {
-    IAsyncEnumerable<Location> ListDefault();
-    IAsyncEnumerable<Location> List(int mapId);
-
-    Task<Location> Get(int id, int mapId);
-
-    Task<string?> Create(Location location);
-    Task<string?> Update(Location location);
+    Task<IEnumerable<UnitSize>> GetUnitSizesAsync();
+    Task<IEnumerable<UnitType>> GetUnitTypesAsync();
+    Task<IEnumerable<Actor>> GetActorsAsync();
 }

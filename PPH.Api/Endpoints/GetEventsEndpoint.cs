@@ -1,26 +1,50 @@
 ﻿using Microsoft.Net.Http.Headers;
-using PPH.DataAccess.Repositories;
+using PPH.DataAccess.Repositories.Implementations;
+using PPH.PublicContracts.GeoJson;
 using System.Text.Json;
 
-namespace PPH.Api.Endpoints.Events;
+namespace PPH.Api.Endpoints;
 
 public static class GetEventsEndpoint
 {
     public static void Map(IEndpointRouteBuilder builder)
     {
-        builder.MapGet("/events", async (HttpContext ctx, EventRepository repo) =>
+        builder.MapGet("/maps/{mapId}/events/geoJson-stream", async (string mapid, HttpContext ctx, EventRepository repo) =>
         {
             ctx.Response.Headers.Append(HeaderNames.ContentType, "text/event-stream");
 
             await foreach (var @event in repo.GetMapEventsStream(1))
             {
                 await ctx.Response.WriteAsync($"data: ");
-                await JsonSerializer.SerializeAsync(ctx.Response.Body, @event);
+
+                var feature = new GeoJsonFeature(@event.PointObject);
+
+                feature.Properties["id"] = @event.Id;
+                feature.Properties["mapId"] = @event.MapId;
+                feature.Properties["name"] = @event.Name;
+                feature.Properties["eventTime"] = @event.EventTime;
+
+                await JsonSerializer.SerializeAsync(ctx.Response.Body, feature);
+
                 await ctx.Response.WriteAsync($"\n\n");
                 await ctx.Response.Body.FlushAsync();
             }
         })
-        .WithName("GetEvents");
+        .WithName("get-map-events");
+
+        builder.MapGet("/maps/{mapId}/events/latest", async (string mapId, HttpContext ctx, EventRepository repo) =>
+        {
+            ctx.Response.Headers.Append(HeaderNames.ContentType, "text/event-stream");
+
+            var id = int.Parse(mapId);
+
+            var response = await repo.GetMapLatestEvents(id);
+
+            return Results.NotFound();
+
+            //return Results.Json(response.Select(x => new PPH.PublicContracts.Entities.Event()))
+        })
+        .WithName("get-map-latest-events");
     }
 }
 

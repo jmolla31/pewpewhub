@@ -8,7 +8,7 @@ public interface IMapsRepository
 
     Task<Map?> Get(int id);
 
-    Task<string?> Create(Map map);
+    Task<Map?> Create(Map map);
 
     Task<string?> Update(Map map);
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PPH.PublicContracts;
+namespace PPH.PublicContracts.Entities;
 
 public class UnitSize
 {

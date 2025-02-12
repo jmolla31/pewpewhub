@@ -2,7 +2,7 @@
 using PPH.DataAccess.Models;
 using System.Data;
 
-namespace PPH.DataAccess.Repositories;
+namespace PPH.DataAccess.Repositories.Implementations;
 
 
 public sealed class MapsRepository : IMapsRepository
@@ -11,7 +11,6 @@ public sealed class MapsRepository : IMapsRepository
 
     public MapsRepository(IDbConnection dbConnection)
     {
-        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         _dbConnection = dbConnection;
     }
 
@@ -33,10 +32,10 @@ public sealed class MapsRepository : IMapsRepository
         return await _dbConnection.QueryFirstOrDefaultAsync<Map>(query, new { Id = id });
     }
 
-    public async Task<string?> Create(Map map)
+    public async Task<Map?> Create(Map map)
     {
         const string query = @"
-            INSERT INTO map (name, description, created_at, created_by)
+            INSERT INTO maps (name, description, created_at, created_by)
             VALUES (@Name, @Description, @CreatedAt, @CreatedBy)
             RETURNING id;";
 
@@ -49,7 +48,8 @@ public sealed class MapsRepository : IMapsRepository
                 CreatedAt = DateTime.UtcNow,
                 map.CreatedBy
             });
-            return id.ToString();
+
+            return map.WithId(id);
         }
         catch (Exception ex)
         {
@@ -89,5 +89,19 @@ public sealed class MapsRepository : IMapsRepository
             Console.WriteLine($"Error updating map: {ex.Message}");
             return null;
         }
+    }
+}
+
+
+public class DateTimeHandler : SqlMapper.TypeHandler<DateTime>
+{
+    public override void SetValue(IDbDataParameter parameter, DateTime value)
+    {
+        parameter.Value = value;
+    }
+
+    public override DateTime Parse(object value)
+    {
+        return DateTime.SpecifyKind((DateTime)value, DateTimeKind.Utc);
     }
 }

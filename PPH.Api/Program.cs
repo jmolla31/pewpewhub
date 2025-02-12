@@ -1,7 +1,8 @@
+using Dapper;
 using Npgsql;
 using PPH.Api.Endpoints;
-using PPH.Api.Endpoints.Events;
 using PPH.DataAccess.Repositories;
+using PPH.DataAccess.Repositories.Implementations;
 using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 
 builder.Services.AddScoped<IMapsRepository, MapsRepository>();
 builder.Services.AddScoped<EventRepository>();
+builder.Services.AddScoped<IMetadataRepository, MetadataRepository>();
 
 var app = builder.Build();
 
@@ -32,5 +34,15 @@ app.UseHttpsRedirection();
 
 GetEventsEndpoint.Map(app);
 GetMapsEndpoint.Map(app);
+AddMapEndpoint.Map(app);
+MetadataEndpoints.Map(app);
+
+/*
+ * Dapper config
+ */
+
+SqlMapper.AddTypeHandler(new DateTimeHandler());
+DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 app.Run();
+

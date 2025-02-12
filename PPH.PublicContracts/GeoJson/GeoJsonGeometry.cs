@@ -1,9 +1,22 @@
-﻿namespace PPH.PublicContracts.GeoJson;
+﻿
+namespace PPH.PublicContracts.GeoJson;
 
 public class GeoJsonGeometry
 {
-    public string type { get; set; } = "Point";
+    public string Type { get; }
 
-    public double[] coordinates { get; set; } = [];
+    public double[] Coordinates { get; }
+
+    [System.Text.Json.Serialization.JsonConstructor]
+    [Newtonsoft.Json.JsonConstructor]
+    public GeoJsonGeometry(string type, double[] coordinates)
+    {
+        Type = type;
+        Coordinates = coordinates;
+    }
+
+    public GeoJsonGeometry()
+    {
+    }
 }
 

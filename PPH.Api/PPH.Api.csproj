@@ -17,4 +17,8 @@
 	  <ProjectReference Include="..\PPH.DataAccess\PPH.DataAccess.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Endpoints\Events\" />
+	</ItemGroup>
+
 </Project>

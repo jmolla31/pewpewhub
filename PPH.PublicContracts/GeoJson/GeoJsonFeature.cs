@@ -4,8 +4,13 @@ namespace PPH.PublicContracts.GeoJson;
 
 public class GeoJsonFeature
 {
-    public string Type { get; set; } = "Feature";
-    public int Id { get; set; }
-    public GeoJsonGeometry Geometry { get; set; } = default!;
-    public Dictionary<string, object> Properties { get; set; } = new();
+    public string Type = "Feature";
+    public GeoJsonGeometry Geometry { get; }
+    public Dictionary<string, object> Properties { get; }
+
+    public GeoJsonFeature(GeoJsonGeometry geometry)
+    {
+        Geometry = geometry;
+        Properties = [];
+    }
 }

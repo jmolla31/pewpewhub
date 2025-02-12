@@ -1,6 +1,22 @@
 @TactiNerdMap_HostAddress = http://localhost:5219
 
-GET {{TactiNerdMap_HostAddress}}/weatherforecast/
+GET {{TactiNerdMap_HostAddress}}/maps/
+Accept: application/json
+
+###
+
+POST {{TactiNerdMap_HostAddress}}/maps/
+Content-Type: application/json
+
+{
+    "name": "testMap",
+    "description": "testDescription"
+}
+
+###
+
+
+GET {{TactiNerdMap_HostAddress}}/maps/1/events/geoJson-stream
 Accept: application/json
 
 ###

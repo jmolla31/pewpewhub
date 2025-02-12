@@ -1,0 +1,16 @@
+@TactiNerdMap_HostAddress = http://localhost:5219
+
+GET {{TactiNerdMap_HostAddress}}/metadata/unit-sizes
+Accept: application/json
+
+###
+
+GET {{TactiNerdMap_HostAddress}}/metadata/entity-types
+Accept: application/json
+
+###
+
+GET {{TactiNerdMap_HostAddress}}/metadata/actors
+Accept: application/json
+
+###
