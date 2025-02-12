@@ -2,7 +2,7 @@
 
 namespace PPH.DataAccess.Models;
 
-public class Formation : LocationEntityBase
+public class Formation : LocatableEntityBase
 {
     public Formation(int id, int mapId, string name, string point,
                     DateTime createdAt, string createdBy, DateTime? updatedAt, string? updatedBy)

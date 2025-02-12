@@ -7,20 +7,24 @@ namespace PPH.PublicContracts.Entities
     /// <summary>
     ///     Base class for objects requiring a unique identifier and location coordinates (using a GeoJson point).
     /// </summary>
-    public abstract class LocationEntityBase : TraceableEntityBase
+    public abstract class LocatableEntityBase : TraceableEntityBase
     {
-        protected LocationEntityBase(DateTime createdAt, string? createdBy, DateTime? updatedAt, string? updatedBy) : base(createdAt, createdBy, updatedAt, updatedBy)
+        protected LocatableEntityBase(DateTime createdAt, string createdBy, DateTime? updatedAt, string? updatedBy) : base(createdAt, createdBy, updatedAt, updatedBy)
         {
         }
 
         public int Id { get; set; }
+
         public int MapId { get; set; }
 
         [Required]
         [StringLength(150)]
         public string Name { get; set; } = "default";
 
-        public string Actor { get; set; } = "neutral";
+        /// <summary>
+        ///     Optional. Identifies the actor that this event is related to. If <see cref="UnitId"/> is not null, it must match the actor from the attached unit.
+        /// </summary>
+        public string? Actor { get; set; }
 
         public GeoJsonGeometry Point { get; set; } = new();
 

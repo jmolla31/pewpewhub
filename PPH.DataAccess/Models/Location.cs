@@ -2,7 +2,7 @@
 
 namespace PPH.DataAccess.Models;
 
-public class Location : LocationEntityBase
+public class Location : LocatableEntityBase
 {
     public Location(int id, int mapId, string name, string point, 
                     DateTime createdAt, string createdBy, DateTime? updatedAt, string? updatedBy) 

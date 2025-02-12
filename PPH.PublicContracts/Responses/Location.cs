@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PPH.PublicContracts.Entities;
 
-public class Location : LocationEntityBase
+public class Location : LocatableEntityBase
 {
     public Location(DateTime createdAt, string? createdBy, DateTime? updatedAt, string? updatedBy) 
         : base(createdAt, createdBy, updatedAt, updatedBy)

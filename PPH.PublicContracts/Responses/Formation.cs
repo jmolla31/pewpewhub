@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace PPH.PublicContracts.Entities;
 
 
-public class Formation : LocationEntityBase
+public class Formation : LocatableEntityBase
 {
     public Formation(DateTime createdAt, string? createdBy, DateTime? updatedAt, string? updatedBy) 
         : base(createdAt, createdBy, updatedAt, updatedBy)
